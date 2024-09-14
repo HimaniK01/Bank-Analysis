@@ -1,0 +1,220 @@
+1.Year wise loan amount Stats
+Ans.
+mysql> select issue_d as years,concat(round(sum(loan_amnt)/10000000,2),'Cr') as Loan_amount from masterdata group by issue_d ;
++-------+-------------+
+| years | Loan_amount |
++-------+-------------+
+|  2009 | 4.63Cr      |
+|  2008 | 1.44Cr      |
+|  2010 | 12.19Cr     |
+|  2007 | 0.22Cr      |
+|  2011 | 26.02Cr     |
++-------+-------------+
+5 rows in set (0.05 sec)
+
+2.Grade and sub grade wise revol_bal
+Ans.
+mysql> select Grade,sub_grade,concat(round(sum(revol_bal)/10000000,2), 'Cr') as revolution_balance from Masterdata group by Grade,sub_grade order by grade asc;
++-------+-----------+--------------------+
+| Grade | sub_grade | revolution_balance |
++-------+-----------+--------------------+
+| A     | A1        | 1.14Cr             |
+| A     | A2        | 1.4Cr              |
+| A     | A3        | 1.95Cr             |
+| A     | A4        | 3.46Cr             |
+| A     | A5        | 3.53Cr             |
+| B     | B1        | 2.18Cr             |
+| B     | B2        | 2.65Cr             |
+| B     | B3        | 3.97Cr             |
+| B     | B4        | 3.53Cr             |
+| B     | B5        | 3.79Cr             |
+| C     | C1        | 2.94Cr             |
+| C     | C2        | 2.73Cr             |
+| C     | C3        | 2.05Cr             |
+| C     | C4        | 1.68Cr             |
+| C     | C5        | 1.6Cr              |
+| D     | D1        | 1.21Cr             |
+| D     | D2        | 1.86Cr             |
+| D     | D3        | 1.68Cr             |
+| D     | D4        | 1.37Cr             |
+| D     | D5        | 1.32Cr             |
+| E     | E1        | 1.11Cr             |
+| E     | E2        | 1.02Cr             |
+| E     | E3        | 0.9Cr              |
+| E     | E4        | 0.8Cr              |
+| E     | E5        | 0.77Cr             |
+| F     | F1        | 0.58Cr             |
+| F     | F2        | 0.45Cr             |
+| F     | F3        | 0.32Cr             |
+| F     | F4        | 0.26Cr             |
+| F     | F5        | 0.22Cr             |
+| G     | G1        | 0.18Cr             |
+| G     | G2        | 0.17Cr             |
+| G     | G3        | 0.08Cr             |
+| G     | G4        | 0.14Cr             |
+| G     | G5        | 0.07Cr             |
++-------+-----------+--------------------+
+35 rows in set (0.12 sec)
+
+3.Total Payment for Verified Status Vs Total Payment for Non Verified Status
+Ans-
+mysql> select verification_status,concat(round(sum(total_pymnt)/10000000,2), 'Cr') as Total_payment from Masterdata group by verification_status;
++---------------------+---------------+
+| verification_status | Total_payment |
++---------------------+---------------+
+| Verified            | 21.99Cr       |
+| Not Verified        | 15.35Cr       |
+| Source Verified     | 10.93Cr       |
++---------------------+---------------+
+3 rows in set (0.10 sec)
+
+4.State wise and month wise loan status
+Ans.
+mysql> SELECT addr_state AS state,IssueDateMonth AS month,loan_status,COUNT(loan_status) AS loan_count FROM masterdata GROUP BY addr_state,IssueDateMonth,loan_status ORDER BY addr_state,IssueDateMonth,loan_status limit 35;
++-------+-------+-------------+------------+
+| state | month | loan_status | loan_count |
++-------+-------+-------------+------------+
+| AK    | Apr   | Charged Off |          1 |
+| AK    | Apr   | Fully Paid  |          3 |
+| AK    | Aug   | Charged Off |          1 |
+| AK    | Aug   | Fully Paid  |          4 |
+| AK    | Dec   | Charged Off |          4 |
+| AK    | Dec   | Current     |          2 |
+| AK    | Dec   | Fully Paid  |         10 |
+| AK    | Feb   | Fully Paid  |          2 |
+| AK    | Jan   | Fully Paid  |          6 |
+| AK    | Jul   | Fully Paid  |          5 |
+| AK    | Jun   | Charged Off |          2 |
+| AK    | Jun   | Fully Paid  |          3 |
+| AK    | Mar   | Charged Off |          2 |
+| AK    | Mar   | Fully Paid  |          6 |
+| AK    | May   | Charged Off |          1 |
+| AK    | May   | Fully Paid  |          8 |
+| AK    | Nov   | Charged Off |          2 |
+| AK    | Nov   | Fully Paid  |          7 |
+| AK    | Oct   | Charged Off |          1 |
+| AK    | Oct   | Fully Paid  |          3 |
+| AK    | Sep   | Charged Off |          1 |
+| AK    | Sep   | Fully Paid  |          6 |
+| AL    | Apr   | Charged Off |          2 |
+| AL    | Apr   | Fully Paid  |         30 |
+| AL    | Aug   | Charged Off |          8 |
+| AL    | Aug   | Current     |          1 |
+| AL    | Aug   | Fully Paid  |         32 |
+| AL    | Dec   | Charged Off |          8 |
+| AL    | Dec   | Current     |          5 |
+| AL    | Dec   | Fully Paid  |         44 |
+| AL    | Feb   | Charged Off |          1 |
+| AL    | Feb   | Fully Paid  |         24 |
+| AL    | Jan   | Charged Off |          2 |
+| AL    | Jan   | Fully Paid  |         28 |
+| AL    | Jul   | Charged Off |          3 |
++-------+-------+-------------+------------+
+35 rows in set (0.22 sec)
+
+
+mysql> SELECT addr_state AS state,COUNT(loan_status) AS loan_count FROM masterdata GROUP BY addr_state ORDER BY addr_state limit 35;
++-------+------------+
+| state | loan_count |
++-------+------------+
+| AK    |         80 |
+| AL    |        450 |
+| AR    |        245 |
+| AZ    |        878 |
+| CA    |       7080 |
+| CO    |        791 |
+| CT    |        750 |
+| DC    |        214 |
+| DE    |        113 |
+| FL    |       2863 |
+| GA    |       1396 |
+| HI    |        174 |
+| IA    |          5 |
+| ID    |          6 |
+| IL    |       1523 |
+| IN    |          9 |
+| KS    |        271 |
+| KY    |        324 |
+| LA    |        436 |
+| MA    |       1340 |
+| MD    |       1046 |
+| ME    |          3 |
+| MI    |        719 |
+| MN    |        614 |
+| MO    |        684 |
+| MS    |         19 |
+| MT    |         85 |
+| NC    |        786 |
+| NE    |          5 |
+| NH    |        171 |
+| NJ    |       1847 |
+| NM    |        189 |
+| NV    |        497 |
+| NY    |       3804 |
+| OH    |       1221 |
++-------+------------+
+35 rows in set (0.12 sec)
+
+mysql> SELECT IssueDateMonth AS month, COUNT(loan_status) AS loan_count FROM masterdata GROUP BY IssueDateMonth ORDER BY IssueDateMonth;
++-------+------------+
+| month | loan_count |
++-------+------------+
+| Apr   |       2829 |
+| Aug   |       3515 |
+| Dec   |       4430 |
+| Feb   |       2354 |
+| Jan   |       2377 |
+| Jul   |       3468 |
+| Jun   |       3270 |
+| Mar   |       2686 |
+| May   |       2993 |
+| Nov   |       4158 |
+| Oct   |       3926 |
+| Sep   |       3640 |
++-------+------------+
+12 rows in set (0.12 sec)
+
+5.Home ownership Vs last payment date stats
+Ans.
+mysql> SELECT last_pymnt_d,home_ownership,COUNT(*) AS loan_count FROM Masterdata GROUP BY home_ownership, last_pymnt_d ORDER BY home_ownership, last_pymnt_d;
++--------------+----------------+------------+
+| last_pymnt_d | home_ownership | loan_count |
++--------------+----------------+------------+
+|         2008 | MORTGAGE       |         56 |
+|         2009 | MORTGAGE       |        229 |
+|         2010 | MORTGAGE       |        706 |
+|         2011 | MORTGAGE       |       2131 |
+|         2012 | MORTGAGE       |       3786 |
+|         2013 | MORTGAGE       |       4254 |
+|         2014 | MORTGAGE       |       4172 |
+|         2015 | MORTGAGE       |       1207 |
+|         2016 | MORTGAGE       |       1104 |
+|         2010 | NONE           |          2 |
+|         2011 | NONE           |          1 |
+|         2009 | OTHER          |         12 |
+|         2010 | OTHER          |         16 |
+|         2011 | OTHER          |         34 |
+|         2012 | OTHER          |         35 |
+|         2015 | OTHER          |          1 |
+|         2008 | OWN            |         11 |
+|         2009 | OWN            |         39 |
+|         2010 | OWN            |        185 |
+|         2011 | OWN            |        422 |
+|         2012 | OWN            |        700 |
+|         2013 | OWN            |        703 |
+|         2014 | OWN            |        673 |
+|         2015 | OWN            |        160 |
+|         2016 | OWN            |        160 |
+|         2008 | RENT           |         70 |
+|         2009 | RENT           |        279 |
+|         2010 | RENT           |        939 |
+|         2011 | RENT           |       2408 |
+|         2012 | RENT           |       4383 |
+|         2013 | RENT           |       4501 |
+|         2014 | RENT           |       4424 |
+|         2015 | RENT           |       1063 |
+|         2016 | RENT           |        780 |
++--------------+----------------+------------+
+34 rows in set (0.13 sec)
+
+
